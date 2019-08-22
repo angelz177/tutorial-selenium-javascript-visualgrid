@@ -4,10 +4,10 @@
 require('chromedriver');
 
 // Import Selenium Webdriver
-const { Builder, Capabilities } = require('selenium-webdriver');
+const { Builder, Capabilities, By } = require('selenium-webdriver');
 
 // Import Applitools SDK and relevant methods
-const { Eyes, VisualGridRunner, Target, ConsoleLogHandler, Configuration, BrowserType, DeviceName, ScreenOrientation, BatchInfo } = require('@applitools/eyes-selenium'); // should be replaced to '@applitools/eyes-selenium'
+const { Eyes, VisualGridRunner, Target, ConsoleLogHandler, Configuration, BrowserType, DeviceName, ScreenOrientation, BatchInfo, Region } = require('@applitools/eyes-selenium'); // should be replaced to '@applitools/eyes-selenium'
 
 function initializeEyes(runner) {
   // Create Eyes object with the runner, meaning it'll be a Visual Grid eyes.
@@ -32,16 +32,13 @@ function initializeEyes(runner) {
   configuration.setAppName('Eyes Examples');
 
   // Set a test name
-  configuration.setTestName('Targeting/Ignoring by selector inconsistent');
+  configuration.setTestName('Ignored regions are not respected inside of target regions.');
 
   // Set a batch name so all the different browser and mobile combinations are part of the same batch
   configuration.setBatch(new BatchInfo("creditcards"));
 
   // Add Chrome browsers with different Viewports
   configuration.addBrowser(1200, 800, BrowserType.CHROME);
-
-  // Add iPhone 4 device emulation
-  configuration.addDeviceEmulation(DeviceName.iPhone_4, ScreenOrientation.PORTRAIT);
 
   // Set the configuration object to eyes
   eyes.setConfiguration(configuration);
@@ -66,7 +63,14 @@ async function runTest(url, runner) {
     await eyes.open(webDriver);
 
     // Check the page
-    await eyes.check('Main Page ' + url, Target.window());
+    const article =  new Region(By.css("article"));
+    const pubDt = new Region(By.css(".entry-updated-date"));
+
+    // All of these checks return the following... Error Error: IllegalType: left is not a number
+    // await eyes.check("Targeting article", Target.region(article));
+    // await eyes.check("Targeting pubDt", Target.window().ignore(By.css(".entry-updated-date")));
+    await eyes.check("Targeting pubDt insisde if article", Target.region(article).ignore(By.css(".entry-updated-date")));
+
 
     // Close eyes asynchronously
     await eyes.closeAsync();
@@ -83,9 +87,11 @@ async function runTest(url, runner) {
   const runner = new VisualGridRunner(10);
 
   try {
-    // Define links to process
+
+    // Sometimes you will see differences because not all the images are showing up.
+    // The images are clearly visible after webDriver.get(url)
     const urlsToTest = [
-      'https://www.creditcards.com/reviews/alaska-airlines-visa-business-review/'
+      'https://www.creditcards.com/reviews/alaska-airlines-visa-business-review/',
     ];
 
     // Run test for each link
