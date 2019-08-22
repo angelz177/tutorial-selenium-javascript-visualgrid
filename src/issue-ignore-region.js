@@ -66,10 +66,10 @@ async function runTest(url, runner) {
     const article =  new Region(By.css("article"));
     const pubDt = new Region(By.css(".entry-updated-date"));
 
-    // All of these checks return the following... Error Error: IllegalType: left is not a number
+    // ***** All of these checks return the following... Error Error: IllegalType: left is not a number *****
     // await eyes.check("Targeting article", Target.region(article));
-    // await eyes.check("Targeting pubDt", Target.window().ignore(By.css(".entry-updated-date")));
-    await eyes.check("Targeting pubDt insisde if article", Target.region(article).ignore(By.css(".entry-updated-date")));
+    // await eyes.check("Targeting pubDt to ignore", Target.window().ignore(By.css(".entry-updated-date")));
+    await eyes.check("Targeting pubDt inside of article", Target.region(article).ignore(By.css(".entry-updated-date")));
 
 
     // Close eyes asynchronously
