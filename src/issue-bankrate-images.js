@@ -40,9 +40,6 @@ function initializeEyes(runner) {
   // Add Chrome browsers with different Viewports
   configuration.addBrowser(1200, 800, BrowserType.CHROME);
 
-  // Add iPhone 4 device emulation
-  configuration.addDeviceEmulation(DeviceName.iPhone_4, ScreenOrientation.PORTRAIT);
-
   // Set the configuration object to eyes
   eyes.setConfiguration(configuration);
   return eyes;
@@ -83,7 +80,9 @@ async function runTest(url, runner) {
   const runner = new VisualGridRunner(10);
 
   try {
-    // Define links to process
+
+    // Sometimes you will see differences because not all the images are showing up.
+    // The images are clearly visible after webDriver.get(url)
     const urlsToTest = [
       'https://www.bankrate.com/credit-cards/airline/'
     ];
