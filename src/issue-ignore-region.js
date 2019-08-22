@@ -65,11 +65,16 @@ async function runTest(url, runner) {
     // Check the page
     const article =  new Region(By.css("article"));
     const pubDt = new Region(By.css(".entry-updated-date"));
+    const webelem = await webDriver.findElement(By.css(".entry-updated-date"));
 
     // ***** All of these checks return the following... Error Error: IllegalType: left is not a number *****
     // await eyes.check("Targeting article", Target.region(article));
     // await eyes.check("Targeting pubDt to ignore", Target.window().ignore(By.css(".entry-updated-date")));
-    await eyes.check("Targeting pubDt inside of article", Target.region(article).ignore(By.css(".entry-updated-date")));
+    // await eyes.check("Targeting pubDt inside of article", Target.region(article).ignore(By.css(".entry-updated-date")));
+    // await eyes.check("Targeting pubDt inside of article", Target.window().ignoreRegions([pubDt]));
+    await eyes.check("Targeting pubDt inside of article", Target.window().ignoreRegions(webelem));
+
+
 
 
     // Close eyes asynchronously
