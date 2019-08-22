@@ -32,18 +32,13 @@ function initializeEyes(runner) {
   configuration.setAppName('Eyes Examples');
 
   // Set a test name
-  configuration.setTestName('My first Javascript VisualGridRunner test!');
+  configuration.setTestName('Bankrate images dont always render in grid');
 
   // Set a batch name so all the different browser and mobile combinations are part of the same batch
-  configuration.setBatch(new BatchInfo("VIP Browser combo batch"));
+  configuration.setBatch(new BatchInfo("creditcards"));
 
   // Add Chrome browsers with different Viewports
-  configuration.addBrowser(800, 600, BrowserType.CHROME);
-  configuration.addBrowser(700, 500, BrowserType.CHROME);
-
-  // Add Firefox browser with different Viewports
-  configuration.addBrowser(1200, 800, BrowserType.FIREFOX);
-  configuration.addBrowser(1600, 1200, BrowserType.FIREFOX);
+  configuration.addBrowser(1200, 800, BrowserType.CHROME);
 
   // Add iPhone 4 device emulation
   configuration.addDeviceEmulation(DeviceName.iPhone_4, ScreenOrientation.PORTRAIT);
@@ -90,9 +85,7 @@ async function runTest(url, runner) {
   try {
     // Define links to process
     const urlsToTest = [
-      'https://applitools.com/helloworld',
-      'http://applitools-dom-capture-origin-1.surge.sh/testWithIframe.html',
-      'http://applitools.github.io/demo/TestPages/FramesTestPage/',
+      'https://www.bankrate.com/credit-cards/airline/'
     ];
 
     // Run test for each link
